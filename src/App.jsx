@@ -9,7 +9,6 @@ const projects = [
     description:
       "An e-commerce website is an online platform that allows to sell goods and services over the internet.(on github admin dashboard is saperated from Backend and frontend u can look from my github profile)",
     stack: ["React", "JavaScript", "CSS"],
-    visual: "finance",
     theme: "project-lime",
     live: "",
     github: "https://github.com/IamOruj/Ecommerce",
@@ -32,6 +31,22 @@ function Arrow({ diagonal = false }) {
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      return window.localStorage.getItem("portfolio-theme") === "dark";
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = darkMode ? "dark" : "light";
+    try {
+      window.localStorage.setItem("portfolio-theme", darkMode ? "dark" : "light");
+    } catch {
+      return;
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
@@ -107,6 +122,18 @@ export default function App() {
             <a className="nav-contact" href="#contact" onClick={closeMenu}>
               Let's talk <Arrow diagonal />
             </a>
+            <button
+              className="theme-toggle"
+              type="button"
+              onClick={() => setDarkMode((enabled) => !enabled)}
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              aria-pressed={darkMode}
+            >
+              <span className="theme-toggle-icon" aria-hidden="true">
+                {darkMode ? "☀" : "☾"}
+              </span>
+              <span>{darkMode ? "Light mode" : "Dark mode"}</span>
+            </button>
           </div>
         </nav>
       </header>
@@ -116,7 +143,7 @@ export default function App() {
           <div className="hero-copy">
             <div className="availability">
               <span className="availability-dot" />
-              OPEN TO DEVELOPER OPPORTUNITIES
+              OPEN TO WORK :)
             </div>
 
             <p className="eyebrow hero-eyebrow">
@@ -157,7 +184,7 @@ export default function App() {
           >
             
             <div className="art-core">
-              <span>I Dont want to put my pic</span>
+              <span className="art-core-text-pic">I Dont want to put my pic</span>
             </div>
           </div>
 
